@@ -2,10 +2,10 @@ import {z} from 'zod'
 
 export const accountSchema = z.object({
   id: z.string().uuid(),
+  type: z.literal('account'),
 
   name: z.string(),
   currency: z.string(),
-  color: z.string(),
 
   createdAt: z.date(),
   updatedAt: z.date(),

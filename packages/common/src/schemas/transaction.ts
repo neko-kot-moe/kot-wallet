@@ -1,18 +1,16 @@
 import {z} from 'zod'
 import {accountSchema} from './account'
-import {categorySchema} from './category'
-import {originSchema} from './origin'
 
 export const transactionSchema = z.object({
   id: z.string().uuid(),
+  type: z.literal('transaction'),
 
   title: z.string(),
   amount: z.number().int().positive(),
-  type: z.enum(['expense', 'income', 'transfer']),
+  type: z.enum(['in', 'out']),
 
-  accountId: accountSchema.shape.id,
-  categoryId: categorySchema.shape.id.optional(),
-  originId: originSchema.shape.id.optional(),
+  sender: accountSchema.pick({id: true, type: true}),
+  receiver: accountSchema.pick({id: true, type: true}).nullable(),
 
   createdAt: z.date(),
   updatedAt: z.date(),
